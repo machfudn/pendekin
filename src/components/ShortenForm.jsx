@@ -1,21 +1,12 @@
 import { useState } from "react";
 import { supabase } from "../supabaseClient";
 import toast from "react-hot-toast";
-import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import Navbar from "./Navbar";
 
 export default function ShortenForm() {
   const [originalUrl, setOriginalUrl] = useState("");
   const [customCode, setCustomCode] = useState("");
   const [shortUrl, setShortUrl] = useState("");
-
-  const { user } = useAuth();
-  const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    navigate("/auth");
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -81,26 +72,7 @@ export default function ShortenForm() {
 
   return (
     <div className='container mt-5'>
-      <nav className='d-flex justify-content-between align-items-center mb-4'>
-        <h4>Pendek.in</h4>
-        <div>
-          {user && (
-            <>
-              <Link to='/dashboard' className='btn btn-outline-primary me-2'>
-                Data Saya
-              </Link>
-              <button onClick={handleLogout} className='btn btn-outline-danger'>
-                Logout
-              </button>
-            </>
-          )}
-          {!user && (
-            <Link to='/auth' className='btn btn-primary'>
-              Login
-            </Link>
-          )}
-        </div>
-      </nav>
+      <Navbar />
       <div className='card mx-auto px-4 py-3'>
         <h2 className='d-flex justify-content-center'>Pendek-In URL</h2>
         <form onSubmit={handleSubmit}>

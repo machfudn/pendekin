@@ -4,9 +4,10 @@ import { supabase } from "./supabaseClient";
 import ShortenForm from "./components/ShortenForm";
 import { Toaster } from "react-hot-toast";
 import { useAuth } from "./context/AuthContext";
-import Auth from "./Auth/Auth";
+import Auth from "./view/Auth/pages";
 import ShortData from "./Data/ShortData";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import { useLocation } from "react-router-dom";
 
 function RedirectPage() {
   const { code } = useParams();
@@ -29,26 +30,52 @@ function RedirectPage() {
 function App() {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    const fetchRole = async () => {
-      const { data: userData } = await supabase.from("users").select("role").eq("id", user?.id).single();
+    const checkAndInsertUser = async () => {
+      if (!user) return;
+
+      const { data: existingUser, error: fetchError } = await supabase.from("users").select("role").eq("id", user.id).single();
+
+      // Perbaikan: insert jika tidak ada user atau jika error karena tidak ditemukan
+      if (!existingUser || fetchError?.code === "PGRST116") {
+        const { error: insertError } = await supabase.from("users").insert([
+          {
+            id: user.id,
+            email: user.email,
+            role: "user",
+          },
+        ]);
+
+        if (insertError) {
+          console.error("Gagal insert user:", insertError.message);
+          console.log("Hasil cek:", existingUser, fetchError);
+          console.log("Mengecek user ID:", user.id);
+        }
+      }
+
+      const { data: userData } = await supabase.from("users").select("role").eq("id", user.id).single();
 
       if (userData?.role === "admin") {
         navigate("/admin");
       } else {
-        navigate("/");
+        navigate("/dashboard");
       }
     };
 
-    if (user) fetchRole();
-  }, [user, navigate]);
+    const isFromAuth = location.pathname === "/auth";
 
+    if (user && isFromAuth) checkAndInsertUser();
+  }, [user, navigate, location.pathname]);
+
+  if (user === undefined) return <p>Loading...</p>; // untuk cegah render saat user belum siap
   return (
     <>
       <Toaster position='top-center' reverseOrder={false} />
       <Routes>
         <Route path='/auth' element={!user ? <Auth /> : <Navigate to='/' />} />
+
         <Route
           path='/'
           element={
@@ -57,6 +84,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path='/dashboard'
           element={
@@ -65,6 +93,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+
         <Route path='/:code' element={<RedirectPage />} />
       </Routes>
     </>

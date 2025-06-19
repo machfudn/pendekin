@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../supabaseClient";
 import { useAuth } from "../context/AuthContext";
+import Navbar from "../components/Navbar.jsx";
 
 export default function ShortDataUser() {
   const { user } = useAuth();
@@ -18,6 +19,7 @@ export default function ShortDataUser() {
 
   return (
     <div className='container mt-4'>
+      <Navbar />
       <h2>URL Saya</h2>
       <ul>
         {urls.map((url) => (
