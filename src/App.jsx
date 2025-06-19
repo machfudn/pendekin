@@ -1,11 +1,11 @@
 import { Routes, Route, useParams, useNavigate, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import { supabase } from "./supabaseClient";
-import ShortenForm from "./components/ShortenForm";
 import { Toaster } from "react-hot-toast";
 import { useAuth } from "./context/AuthContext";
 import Auth from "./view/Auth/pages";
-import ShortData from "./Data/ShortData";
+import ShortData from "./view/Short/pagesData";
+import ShortCreate from "./view/Short/pagesCreate";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import { useLocation } from "react-router-dom";
 
@@ -50,8 +50,6 @@ function App() {
 
         if (insertError) {
           console.error("Gagal insert user:", insertError.message);
-          console.log("Hasil cek:", existingUser, fetchError);
-          console.log("Mengecek user ID:", user.id);
         }
       }
 
@@ -60,7 +58,7 @@ function App() {
       if (userData?.role === "admin") {
         navigate("/admin");
       } else {
-        navigate("/dashboard");
+        navigate("/");
       }
     };
 
@@ -80,7 +78,7 @@ function App() {
           path='/'
           element={
             <ProtectedRoute>
-              <ShortenForm />
+              <ShortCreate />
             </ProtectedRoute>
           }
         />

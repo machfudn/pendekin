@@ -1,5 +1,5 @@
 import { supabase } from "../../supabaseClient";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import MyButton from "../../components/MyButton";
 import MyInput from "../../components/MyInput";
@@ -8,6 +8,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [activeTab, setActiveTab] = useState("login");
 
   const signInWithEmail = async () => {
@@ -41,17 +42,17 @@ export default function Login() {
     setIsLoading(false);
   };
 
-  const signInWithGoogle = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: "http://localhost:5173/",
-      },
-    });
-    if (error) {
-      toast.error(error.message);
-    }
-  };
+  // const signInWithGoogle = async () => {
+  //   const { error } = await supabase.auth.signInWithOAuth({
+  //     provider: "google",
+  //     options: {
+  //       redirectTo: "http://localhost:5173/",
+  //     },
+  //   });
+  //   if (error) {
+  //     toast.error(error.message);
+  //   }
+  // };
 
   const register = async () => {
     if (!email.trim()) {
@@ -91,21 +92,21 @@ export default function Login() {
       register();
     }
   };
-  useEffect(() => {
-    const checkLogin = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
+  // useEffect(() => {
+  //   const checkLogin = async () => {
+  //     const {
+  //       data: { session },
+  //     } = await supabase.auth.getSession();
 
-      if (session) {
-        toast.success("Login dengan Google berhasil!");
+  //     if (session) {
+  //       toast.success("Login dengan Google berhasil!");
 
-        // bisa juga redirect ke dashboard
-      }
-    };
+  //       // bisa juga redirect ke dashboard
+  //     }
+  //   };
 
-    checkLogin();
-  }, []);
+  //   checkLogin();
+  // }, []);
   return (
     <div className='container my-5'>
       <div className='card px-3 py-5 mx-auto w-50'>
@@ -122,7 +123,6 @@ export default function Login() {
 
         <h3 className='mb-3 text-center'> {activeTab === "login" ? "Login" : "Register"}</h3>
         <form onSubmit={handleSubmit}>
-          {" "}
           <label className='mb-2' htmlFor='email'>
             Email :
           </label>
@@ -143,20 +143,26 @@ export default function Login() {
             name='password'
             id='password'
             autoComplete='current-password'
-            type='password'
+            type={showPassword ? "text" : "password"}
             placeholder='password'
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+          <MyButton type='button' className='form-check no-hover' onClick={() => setShowPassword(!showPassword)}>
+            <MyInput type='checkbox' className='form-check-input mb-2' id='showPasswordCheck' onChange={(e) => setShowPassword(e.target.checked)} />
+            <label id='showPasswordCheck' className='' htmlFor='showPasswordCheck'>
+              Tampilkan Password
+            </label>
+          </MyButton>
           <div className='d-flex flex-column gap-2 justify-content-start mt-3'>
             <MyButton className='btn-primary me-2' onClick={handleSubmit} disabled={isLoading} isActive>
               {isLoading ? (activeTab === "login" ? "Login..." : "Register...") : activeTab === "login" ? "Login" : "Register"}
             </MyButton>
-            {activeTab === "login" && (
+            {/* {activeTab === "login" && (
               <MyButton className='btn-danger' onClick={signInWithGoogle}>
                 Login with Google
               </MyButton>
-            )}
+            )} */}
           </div>
         </form>
       </div>

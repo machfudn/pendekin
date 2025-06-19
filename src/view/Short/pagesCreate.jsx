@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { supabase } from "../supabaseClient";
+import { supabase } from "../../supabaseClient";
 import toast from "react-hot-toast";
-import Navbar from "./Navbar";
+import Navbar from "../../components/Navbar";
 
 export default function ShortenForm() {
   const [originalUrl, setOriginalUrl] = useState("");
@@ -74,7 +74,7 @@ export default function ShortenForm() {
     <div className='container mt-5'>
       <Navbar />
       <div className='card mx-auto px-4 py-3'>
-        <h2 className='d-flex justify-content-center'>Pendek-In URL</h2>
+        <h2 className='d-flex justify-content-center'>Tambah URL</h2>
         <form onSubmit={handleSubmit}>
           <div className='mb-3'>
             <label htmlFor='target_url'>Masukan URL yang ingin dipendekkan :</label>

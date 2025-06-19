@@ -17,10 +17,10 @@ export default function Navbar() {
         {user && (
           <>
             <Link to='/' className='btn btn-outline-primary me-2'>
-              Form pembuatan link
+              Tambah URL
             </Link>
             <Link to='/dashboard' className='btn btn-outline-primary me-2'>
-              Link yang dibuat
+              Data URL
             </Link>
             <button onClick={handleLogout} className='btn btn-outline-danger'>
               Logout
