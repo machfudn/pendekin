@@ -25,16 +25,16 @@ export default function CreateUrl() {
         throw new Error('Format URL tidak valid');
       }
 
-      // Validasi custom code
+      // Validasi custom url
       if (!customCode || customCode.length < 3) {
-        throw new Error('Kode pendek minimal 3 karakter');
+        throw new Error('custom url pendek minimal 3 karakter');
       }
 
       if (!/^[a-z0-9-]+$/i.test(customCode)) {
         throw new Error('Hanya boleh mengandung huruf, angka, dan tanda hubung (-)');
       }
 
-      // Cek ketersediaan custom code (case insensitive)
+      // Cek ketersediaan custom url (case insensitive)
       const { data: existing, error: checkError } = await supabase
         .from('urls')
         .select('id')
@@ -42,7 +42,7 @@ export default function CreateUrl() {
         .maybeSingle();
 
       if (checkError) throw new Error('Gagal memverifikasi kode');
-      if (existing) throw new Error('Kode custom sudah digunakan');
+      if (existing) throw new Error('custom url sudah digunakan');
 
       // Dapatkan user
       const {
@@ -91,7 +91,6 @@ export default function CreateUrl() {
       <Navbar />
       <div className='card mx-auto px-4 py-3' style={{ maxWidth: '600px' }}>
         <h2 className='text-center mb-4'>Create Short URL</h2>
-
         <form onSubmit={handleSubmit}>
           <div className='mb-3'>
             <label htmlFor='target_url' className='form-label'>
@@ -111,7 +110,7 @@ export default function CreateUrl() {
 
           <div className='mb-3'>
             <label htmlFor='custom_code' className='form-label'>
-              Custom Code (min 3 karakter):
+              Custom Url (min 3 karakter):
             </label>
             <input
               id='custom_code'
@@ -141,14 +140,16 @@ export default function CreateUrl() {
         {shortUrl && (
           <div className='mt-4 p-3 bg-light rounded'>
             <p className='mb-2'>
-              <strong>Short URL Anda:</strong>
+              <strong>Short URL:</strong>
             </p>
-            <a href={shortUrl} target='_blank' rel='noopener noreferrer' className='text-break'>
-              {shortUrl}
-            </a>
-            <button onClick={() => navigator.clipboard.writeText(shortUrl)} className='btn btn-sm btn-outline-secondary ms-2'>
-              Salin
-            </button>
+            <div className='input-group mb-3'>
+              <input className='form-control' type='text' value={shortUrl} disabled />
+              <div class='input-group-prepend'>
+                <button onClick={() => navigator.clipboard.writeText(shortUrl)} class='btn btn-outline-secondary'>
+                  Salin
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </div>

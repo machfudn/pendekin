@@ -46,6 +46,71 @@ export default function ShortData() {
     setShowDelete(false);
     fetchUrls();
   };
+  const lihatOriginalUrl = (e, original_url) => {
+    e.preventDefault();
+    navigator.clipboard
+      .writeText(original_url)
+      .then(() => {
+        window.open(original_url, '_blank');
+      })
+      .catch(err => {
+        toast.error('Gagal menyalin URL:', err);
+        window.location.href = original_url;
+      });
+  };
+  const salinOriginalUrl = (e, original_url) => {
+    e.preventDefault();
+    navigator.clipboard
+      .writeText(original_url)
+      .then(() => {
+        toast.success('Original URL berhasil disalin');
+      })
+      .catch(err => {
+        toast.error('Gagal menyalin URL:', err);
+        window.location.href = original_url;
+      });
+  };
+  const lihatCustomUrl = (e, short_code) => {
+    e.preventDefault();
+    navigator.clipboard
+      .writeText(short_code)
+      .then(() => {
+        window.open(short_code, '_blank');
+      })
+      .catch(err => {
+        toast.error('Gagal menyalin URL:', err);
+        window.location.href = short_code;
+      });
+  };
+  const salinCustomUrl = (e, short_code) => {
+    e.preventDefault();
+    navigator.clipboard
+      .writeText(short_code)
+      .then(() => {
+        toast.success('Custom URL berhasil disalin');
+      })
+      .catch(err => {
+        toast.error('Gagal menyalin URL:', err);
+        window.location.href = short_code;
+      });
+  };
+  const handleDownload = () => {
+    // Format nama file: value-tanggal-bulan-tahun
+    const fileName = `${selectedUrl.short_code}-${new Date().toLocaleDateString('id-ID')}.svg`.replace(/\//g, '-'); // Ganti slash dengan dash untuk format tanggal
+
+    // Dapatkan SVG element
+    const svg = document.getElementById('qr-code-svg');
+    const svgData = new XMLSerializer().serializeToString(svg);
+    const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+
+    // Buat download link
+    const downloadLink = document.createElement('a');
+    downloadLink.href = URL.createObjectURL(svgBlob);
+    downloadLink.download = fileName;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+  };
 
   return (
     <div className='container mt-5'>
@@ -58,7 +123,9 @@ export default function ShortData() {
               <th scope='col'>No</th>
               <th scope='col'>Original URL</th>
               <th scope='col'>Custom URL</th>
-              <th scope='col'>Action</th>
+              <th scope='col' className='text-nowrap' style={{ maxWidth: '150px', minWidth: '100px', width: '30%' }}>
+                Action
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -66,14 +133,14 @@ export default function ShortData() {
               <tr className='text-center' key={url.id}>
                 <td>{index + 1}</td>
                 <td>
-                  <a href={url.original_url} target='_blank'>
-                    {url.original_url}
-                  </a>
+                  <div className='input-group mb-3'>
+                    <input className='form-control' type='text' value={url.original_url} disabled />
+                  </div>
                 </td>
                 <td>
-                  <a href={url.original_url} target='_blank'>
-                    {`${window.location.origin}/${url.short_code}`}
-                  </a>
+                  <div className='input-group mb-3'>
+                    <input className='form-control' type='text' value={`${window.location.origin}/${url.short_code}`} disabled />
+                  </div>
                 </td>
                 <td className='d-flex justify-content-center gap-1 flex-wrap'>
                   <Button
@@ -84,6 +151,18 @@ export default function ShortData() {
                       setShowQR(true);
                     }}>
                     QR Code
+                  </Button>
+                  <Button size='sm' variant='outline-dark' onClick={e => salinOriginalUrl(e, url.original_url)}>
+                    Salin Original URL
+                  </Button>
+                  <Button size='sm' variant='outline-dark' onClick={e => lihatOriginalUrl(e, url.original_url)}>
+                    Lihat Original URL
+                  </Button>
+                  <Button size='sm' variant='outline-dark' onClick={e => salinCustomUrl(e, `${window.location.origin}/${url.short_code}`)}>
+                    Salin Custom URL
+                  </Button>
+                  <Button size='sm' variant='outline-dark' onClick={e => lihatCustomUrl(e, `${window.location.origin}/${url.short_code}`)}>
+                    Lihat Custome URL
                   </Button>
 
                   <Button
@@ -120,8 +199,17 @@ export default function ShortData() {
           <Modal.Body className='text-center'>
             {selectedUrl && (
               <>
-                <QRCodeSVG value={`${window.location.origin}/${selectedUrl.short_code}`} />
+                <QRCodeSVG
+                  id='qr-code-svg'
+                  value={`${window.location.origin}/${selectedUrl.short_code}`}
+                  size={256}
+                  level='H' // High error correction
+                  includeMargin={true}
+                />
                 <p className='mt-3'>{`${window.location.origin}/${selectedUrl.short_code}`}</p>
+                <Button variant='primary' onClick={handleDownload} className='mt-2'>
+                  Download QR Code (.svg)
+                </Button>
               </>
             )}
           </Modal.Body>

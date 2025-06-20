@@ -92,21 +92,7 @@ export default function Login() {
       register();
     }
   };
-  // useEffect(() => {
-  //   const checkLogin = async () => {
-  //     const {
-  //       data: { session },
-  //     } = await supabase.auth.getSession();
 
-  //     if (session) {
-  //       toast.success("Login dengan Google berhasil!");
-
-  //       // bisa juga redirect ke dashboard
-  //     }
-  //   };
-
-  //   checkLogin();
-  // }, []);
   return (
     <div className='container my-5'>
       <div className='card px-3 py-5 mx-auto w-50'>
@@ -148,7 +134,23 @@ export default function Login() {
           </MyButton>
           <div className='d-flex flex-column gap-2 justify-content-start mt-3'>
             <MyButton className='btn-primary me-2' onClick={handleSubmit} disabled={isLoading} isActive>
-              {isLoading ? (activeTab === 'login' ? 'Login...' : 'Register...') : activeTab === 'login' ? 'Login' : 'Register'}
+              {isLoading ? (
+                activeTab === 'login' ? (
+                  <>
+                    <span className='spinner-border spinner-border-sm me-2' role='status' aria-hidden='true'></span>
+                    Login...
+                  </>
+                ) : (
+                  <>
+                    <span className='spinner-border spinner-border-sm me-2' role='status' aria-hidden='true'></span>
+                    Register...
+                  </>
+                )
+              ) : activeTab === 'login' ? (
+                'Login'
+              ) : (
+                'Register'
+              )}
             </MyButton>
             {activeTab === 'login' && (
               <MyButton className='btn-danger' onClick={signInWithGoogle}>

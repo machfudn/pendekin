@@ -6,6 +6,7 @@ import Auth from '@/pages/Auth';
 import DataUrl from '@/pages/DataUrl';
 import CreateUrl from '@/pages/CreateUrl';
 import Home from '@/pages/Home';
+import About from '@/pages/About';
 import ProtectedRoute from './ProtectedRoute';
 import { supabase } from '@/helpers/supabaseClient';
 import { Toaster } from 'react-hot-toast';
@@ -77,6 +78,14 @@ function Index() {
           element={
             <ProtectedRoute>
               <DataUrl />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/about'
+          element={
+            <ProtectedRoute>
+              <About />
             </ProtectedRoute>
           }
         />
