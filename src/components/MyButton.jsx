@@ -1,19 +1,7 @@
-import React from "react";
-import classNames from "classnames";
-
-function MyButton({ children, isActive, className, ...props }) {
-  const btnClass = classNames(
-    "btn", // base Bootstrap button class
-    "px-4 py-2", // padding
-    "me-2", // right margin (spacing antar tombol)
-    "shadow-sm", // small shadow
-    "transition", // smooth transition
-    "rounded", // rounded corner
-    isActive ? "btn-primary" : "",
-    className // custom class
-  );
+import '@/styles/MyButton.css';
+function MyButton({ onClick, children, className = 'px-4 py-2 me-2 shadow-sm transition rounded ', type = 'button' }) {
   return (
-    <button className={btnClass} {...props}>
+    <button className={`btn ${className}`} onClick={onClick} type={type}>
       {children}
     </button>
   );

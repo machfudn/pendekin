@@ -1,0 +1,60 @@
+/* MyInput.css */
+.form-control {
+	display: block;
+	width: 100%;
+	padding: 0.375rem 0.75rem;
+	/* Padding standar Bootstrap (6px atas/bawah, 12px kiri/kanan) */
+	font-size: 1rem;
+	/* Ukuran font standar (16px) */
+	font-weight: 400;
+	line-height: 1.5;
+	color: #212529;
+	/* Warna teks gelap */
+	background-color: #fff;
+	background-clip: padding-box;
+	border: 1px solid #ced4da;
+	/* Border abu-abu tipis Bootstrap */
+	appearance: none;
+	/* Menghilangkan styling default browser */
+	border-radius: 0.375rem;
+	/* Sudut sedikit membulat Bootstrap (sekitar 6px) */
+	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+	/* Transisi halus untuk fokus */
+	max-width: 100%;
+	/* Tambahkan ini */
+	box-sizing: border-box;
+	/* Pastikan padding tidak menambah lebar */
+}
+
+/* Styling saat input difokuskan */
+.form-control:focus {
+	color: #212529;
+	background-color: #fff;
+	border-color: #86b7fe;
+	/* Warna border biru terang saat fokus */
+	outline: 0;
+	box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+	/* Bayangan biru transparan saat fokus */
+}
+
+/* Styling untuk placeholder */
+.form-control::placeholder {
+	color: #6c757d;
+	/* Warna abu-abu untuk placeholder */
+	opacity: 1;
+	/* Memastikan placeholder tidak transparan di beberapa browser */
+}
+
+/* Styling untuk input yang disabled */
+.form-control:disabled,
+.form-control[readonly] {
+	background-color: #e9ecef;
+	/* Latar belakang abu-abu untuk disabled/readonly */
+	opacity: 1;
+}
+
+/* Margin Bottom */
+.mb-2 {
+	margin-bottom: 0.5rem !important;
+	/* Margin bawah 8px. Gunakan !important jika ada konflik */
+}

@@ -11,7 +11,7 @@ export default function Navbar() {
   const navigate = useNavigate();
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    navigate('/auth');
+    navigate('/login');
   };
 
   return (
@@ -67,7 +67,7 @@ export default function Navbar() {
                   </Button>
                 </>
               ) : (
-                <Link to='/auth' className='btn btn-primary w-100 w-md-auto' onClick={() => setIsOpen(false)}>
+                <Link to='/login' className='btn btn-primary w-100 w-md-auto' onClick={() => setIsOpen(false)}>
                   Login
                 </Link>
               )}
@@ -76,7 +76,7 @@ export default function Navbar() {
         </>
       )}
       {!user && (
-        <Link to='/auth' className='btn btn-primary w-100 w-md-auto' onClick={() => setIsOpen(false)}>
+        <Link to='/login' className='btn btn-primary w-100 w-md-auto' onClick={() => setIsOpen(false)}>
           Login
         </Link>
       )}

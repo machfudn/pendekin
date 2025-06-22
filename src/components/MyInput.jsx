@@ -1,7 +1,5 @@
-// src/components/MyInput.jsx
-import React from "react";
-
-function MyInput({ type = "text", name, autoComplete, id, className = "form-control mb-2", placeholder, value, onChange }) {
+import '@/styles/MyInput.css';
+function MyInput({ type = 'text', name, autoComplete, id, className = 'form-control mb-2', placeholder, value, onChange, ...props }) {
   return (
     <input
       type={type}
@@ -12,6 +10,7 @@ function MyInput({ type = "text", name, autoComplete, id, className = "form-cont
       placeholder={placeholder}
       value={value}
       onChange={onChange}
+      {...props}
     />
   );
 }

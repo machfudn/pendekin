@@ -2,7 +2,8 @@
 import React, { useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Routes, Route, useNavigate, Navigate, useLocation } from 'react-router-dom';
-import Auth from '@/pages/Auth';
+import Login from '@/pages/Login';
+import Register from '@/pages/Register';
 import DataUrl from '@/pages/DataUrl';
 import CreateUrl from '@/pages/CreateUrl';
 import Home from '@/pages/Home';
@@ -46,16 +47,17 @@ function Index() {
       }
     };
 
-    const isFromAuth = location.pathname === '/auth';
+    const isFromLogin = location.pathname === '/login';
 
-    if (user && isFromAuth) checkAndInsertUser();
+    if (user && isFromLogin) checkAndInsertUser();
   }, [user, navigate, location.pathname]);
   return (
     <>
       <Toaster position='top-center' reverseOrder={false} />
       <Routes>
-        <Route path='/auth' element={!user ? <Auth /> : <Navigate to='/' />} />
+        <Route path='/login' element={!user ? <Login /> : <Navigate to='/' />} />
 
+        <Route path='/register' element={<Register />} />
         <Route
           path='/'
           element={
