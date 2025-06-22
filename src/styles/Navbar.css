@@ -1,0 +1,152 @@
+/* === Universal Styles === */
+.nav-btn {
+	display: inline-block;
+	text-align: center;
+	padding: 0.5rem 1rem;
+	margin-right: 0.5rem;
+	margin-bottom: 0.5rem;
+	background-color: #e9ecef;
+	border: none;
+	border-radius: 0.25rem;
+	cursor: pointer;
+	text-decoration: none;
+	color: #212529;
+	transition: background-color 0.3s;
+}
+
+.nav-btn:hover {
+	background-color: #dee2e6;
+}
+
+.nav-btn.active {
+	background-color: #0d6efd;
+	color: white;
+}
+
+.logout-btn {
+	background-color: transparent;
+	color: #dc3545;
+	border: 1px solid #dc3545;
+	padding: 0.5rem 1rem;
+	border-radius: 0.25rem;
+	cursor: pointer;
+}
+
+.logout-btn:hover {
+	background-color: #dc3545;
+	color: white;
+}
+
+.navbar-toggle {
+	display: none;
+	background: none;
+	border: none;
+	cursor: pointer;
+}
+
+@media (max-width: 767px) {
+	.navbar-toggle {
+		display: inline-block;
+	}
+}
+
+/* === Layout Styles === */
+.navbar {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	padding: 1rem;
+	background-color: white;
+	border-radius: 0.5rem;
+	box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+	border: 2px solid #f8f9fa;
+	margin-bottom: 1rem;
+}
+
+.navbar-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+}
+
+.navbar-brand {
+	margin: 0;
+	margin-right: 1rem;
+	font-size: 1.25rem;
+}
+
+.navbar-menu {
+	display: none;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	margin-top: 1rem;
+	transition: all 0.3s ease;
+}
+
+.navbar-menu.show {
+	display: flex;
+}
+
+@media (min-width: 768px) {
+	.navbar {
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.navbar-menu {
+		display: flex !important;
+		flex-direction: row;
+		margin-top: 0;
+	}
+}
+
+/* === Hamburger Icon === */
+.hamburger-icon {
+	position: relative;
+	width: 24px;
+	height: 18px;
+	display: inline-block;
+	cursor: pointer;
+	transition: transform 0.3s ease;
+}
+
+.hamburger-icon::before,
+.hamburger-icon::after,
+.hamburger-icon div {
+	content: '';
+	position: absolute;
+	height: 3px;
+	width: 100%;
+	background-color: #333;
+	left: 0;
+	transition: all 0.3s ease;
+}
+
+.hamburger-icon div {
+	top: 7.5px;
+}
+
+.hamburger-icon::before {
+	top: 0;
+}
+
+.hamburger-icon::after {
+	bottom: 0;
+}
+
+.hamburger-icon.open::before {
+	transform: rotate(45deg);
+	top: 7.5px;
+}
+
+.hamburger-icon.open::after {
+	transform: rotate(-45deg);
+	bottom: 7.5px;
+}
+
+.hamburger-icon.open div {
+	opacity: 0;
+}
