@@ -29,38 +29,34 @@ function Home() {
   }, [user]);
   return (
     <div>
-      <div className='container mt-5'>
-        <Navbar />
-        <div className='card mx-auto px-4 py-3'>
-          <h2 className='d-flex justify-content-center mb-3'>Home</h2>
-          <div className='row mb-3'>
-            <div className='col-sm-6 mb-3'>
-              <div className='card'>
-                <div className='card-header'>Create URL</div>
-                <div className='card-body'>
-                  <p className='card-text'>Form untuk menambahkan URL yang ingin diubah</p>
-                  <Link to='/create-url' className='btn btn-primary'>
-                    Lihat
-                  </Link>
-                </div>
-              </div>
-            </div>
-            <div className='col-sm-6 mb-3'>
-              <div className='card'>
-                <div className='card-header'>Data URL</div>
-                <div className='card-body'>
-                  <p className='card-text'>Total Data URL :{totalUrls}</p>
-                  <Link to='/data-url' className='btn btn-primary'>
-                    Lihat
-                  </Link>
-                </div>
-              </div>
-            </div>
+      <Navbar />
+      <div className='container mx-auto mt-10 px-4'>
+        <div className='bg-white shadow-md rounded-lg p-6'>
+          <h2 className='text-center text-2xl font-semibold mb-6'>Home</h2>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+            {/* Card Create URL */}
+            <main className='bg-green-500 outline rounded-md shadow p-4'>
+              <div className='border-b pb-2 mb-4 font-medium text-lg'>Create URL</div>
+              <p className='mb-4 '>Form untuk menambahkan URL yang ingin diubah</p>
+              <Link
+                to='/create-url'
+                className='inline-block outline text-black px-4 py-2 rounded hover:outline-black hover:bg-black hover:text-white'>
+                Lihat
+              </Link>
+            </main>
+
+            {/* Card Data URL */}
+            <main className='bg-yellow-500 outline rounded-md shadow p-4'>
+              <div className='border-b pb-2 mb-4 font-medium text-lg'>Data URL</div>
+              <p className='mb-4'>Total Data URL: {totalUrls}</p>
+              <Link to='/data-url' className='inline-block outline text-black px-4 py-2 rounded hover:outline-black hover:bg-black hover:text-white'>
+                Lihat
+              </Link>
+            </main>
           </div>
         </div>
       </div>
     </div>
   );
 }
-
 export default Home;

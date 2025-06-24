@@ -1,59 +1,77 @@
+import { useState } from 'react';
 import { useNavigate, NavLink, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '@/helpers/supabaseClient';
-import { useState } from 'react';
+import Theme from '@/components/Theme';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
+
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate('/login');
   };
 
   return (
-    <div>
-      {user && (
-        <>
-          <nav className='navbar'>
-            <div className='navbar-header'>
-              <h4 className='navbar-brand'>Pendek.in</h4>
+    <div className='mb-3 mt-4 mx-auto max-w-7xl px-4'>
+      {user ? (
+        <nav className='bg-white border border-gray-200 shadow-md rounded-lg px-6 py-4'>
+          <div className='flex items-center justify-between flex-wrap'>
+            {/* Brand */}
+            <h1 className='text-xl font-semibold text-gray-800'>Pendek.in</h1>
 
-              <button className='navbar-toggle' onClick={() => setIsOpen(!isOpen)} aria-label='Toggle navigation'>
-                <span className={`hamburger-icon ${isOpen ? 'open' : ''}`}>
-                  <div className='hamburger-line'></div>
-                </span>
-              </button>
-            </div>
+            {/* Toggle Button (aktif di mobile & tablet) */}
+            <button onClick={() => setIsOpen(!isOpen)} className='lg:hidden p-2 rounded-md hover:bg-gray-100' aria-label='Toggle navigation'>
+              <div className='space-y-1'>
+                <span className='block w-6 h-0.5 bg-gray-800'></span>
+                <span className='block w-6 h-0.5 bg-gray-800'></span>
+                <span className='block w-6 h-0.5 bg-gray-800'></span>
+              </div>
+            </button>
 
-            <div className={`navbar-menu ${isOpen ? 'show' : ''}`}>
-              <NavLink to='/' className={({ isActive }) => `nav-btn ${isActive ? 'active' : ''}`} onClick={() => setIsOpen(false)}>
-                Home
-              </NavLink>
-              <NavLink to='/create-url' className={({ isActive }) => `nav-btn ${isActive ? 'active' : ''}`} onClick={() => setIsOpen(false)}>
-                Create URL
-              </NavLink>
-              <NavLink to='/data-url' className={({ isActive }) => `nav-btn ${isActive ? 'active' : ''}`} onClick={() => setIsOpen(false)}>
-                Data URL
-              </NavLink>
-              <NavLink to='/about' className={({ isActive }) => `nav-btn ${isActive ? 'active' : ''}`} onClick={() => setIsOpen(false)}>
-                About
-              </NavLink>
-              <button
-                className='logout-btn'
-                onClick={() => {
-                  handleLogout();
-                  setIsOpen(false);
-                }}>
-                Logout
-              </button>
+            {/* Navigation Menu */}
+            <div className={`w-full lg:flex lg:items-center lg:w-auto mt-4 lg:mt-0 ${isOpen ? 'block' : 'hidden'}`}>
+              <div className='flex flex-col lg:flex-row lg:items-center lg:gap-4 w-full'>
+                {[
+                  { path: '/', label: 'Home' },
+                  { path: '/create-url', label: 'Create URL' },
+                  { path: '/data-url', label: 'Data URL' },
+                  { path: '/about', label: 'About' },
+                ].map(({ path, label }) => (
+                  <NavLink
+                    key={path}
+                    to={path}
+                    className={({ isActive }) =>
+                      `px-4 py-2 rounded-md text-sm font-medium text-center mb-1 ${
+                        isActive ? 'bg-blue-500 text-white' : 'text-gray-800 hover:bg-blue-500 hover:text-white'
+                      }`
+                    }
+                    onClick={() => setIsOpen(false)}>
+                    {label}
+                  </NavLink>
+                ))}
+
+                <Theme />
+
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setIsOpen(false);
+                  }}
+                  className='px-4 py-2 mt-2 lg:mt-0 rounded-md bg-red-500 text-white text-sm font-medium hover:bg-red-600 transition'>
+                  Logout
+                </button>
+              </div>
             </div>
-          </nav>
-        </>
-      )}
-      {!user && (
-        <Link to='/login' className='btn btn-primary w-100 w-md-auto' onClick={() => setIsOpen(false)}>
+          </div>
+        </nav>
+      ) : (
+        <Link
+          to='/login'
+          onClick={() => setIsOpen(false)}
+          className='block w-full lg:w-auto text-center mt-3 lg:mt-0 px-4 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700'>
           Login
         </Link>
       )}

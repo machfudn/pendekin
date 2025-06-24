@@ -113,151 +113,153 @@ export default function ShortData() {
   };
 
   return (
-    <div className='container mt-5'>
+    <div>
       <Navbar />
-      <div className='card mx-auto px-4 py-3'>
-        <h2 className='d-flex justify-content-center mb-2'>Data URL</h2>
-        <table className='table table-bordered'>
-          <thead>
-            <tr className='text-center'>
-              <th scope='col'>No</th>
-              <th scope='col'>Original URL</th>
-              <th scope='col'>Custom URL</th>
-              <th scope='col' className='text-nowrap' style={{ maxWidth: '150px', minWidth: '100px', width: '30%' }}>
-                Action
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {urls.map((url, index) => (
-              <tr className='text-center' key={url.id}>
-                <td>{index + 1}</td>
-                <td>
-                  <div className='input-group mb-3'>
-                    <input className='form-control' type='text' value={url.original_url} disabled />
-                  </div>
-                </td>
-                <td>
-                  <div className='input-group mb-3'>
-                    <input className='form-control' type='text' value={`${window.location.origin}/${url.short_code}`} disabled />
-                  </div>
-                </td>
-                <td className='d-flex justify-content-center gap-1 flex-wrap'>
-                  <Button
-                    size='sm'
-                    variant='outline-secondary'
-                    onClick={() => {
-                      setSelectedUrl(url);
-                      setShowQR(true);
-                    }}>
-                    QR Code
-                  </Button>
-                  <Button size='sm' variant='outline-dark' onClick={e => salinOriginalUrl(e, url.original_url)}>
-                    Salin Original URL
-                  </Button>
-                  <Button size='sm' variant='outline-dark' onClick={e => lihatOriginalUrl(e, url.original_url)}>
-                    Lihat Original URL
-                  </Button>
-                  <Button size='sm' variant='outline-dark' onClick={e => salinCustomUrl(e, `${window.location.origin}/${url.short_code}`)}>
-                    Salin Custom URL
-                  </Button>
-                  <Button size='sm' variant='outline-dark' onClick={e => lihatCustomUrl(e, `${window.location.origin}/${url.short_code}`)}>
-                    Lihat Custome URL
-                  </Button>
-
-                  <Button
-                    size='sm'
-                    variant='outline-primary'
-                    onClick={() => {
-                      setSelectedUrl(url);
-                      setNewUrl(url.original_url);
-                      setShowEdit(true);
-                    }}>
-                    Edit
-                  </Button>
-
-                  <Button
-                    size='sm'
-                    variant='outline-danger'
-                    onClick={() => {
-                      setSelectedUrl(url);
-                      setShowDelete(true);
-                    }}>
-                    Delete
-                  </Button>
-                </td>
+      <div className='container mt-5'>
+        <div className='card mx-auto px-4 py-3'>
+          <h2 className='d-flex justify-content-center mb-2'>Data URL</h2>
+          <table className='table table-bordered'>
+            <thead>
+              <tr className='text-center'>
+                <th scope='col'>No</th>
+                <th scope='col'>Original URL</th>
+                <th scope='col'>Custom URL</th>
+                <th scope='col' className='text-nowrap' style={{ maxWidth: '150px', minWidth: '100px', width: '30%' }}>
+                  Action
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {urls.map((url, index) => (
+                <tr className='text-center' key={url.id}>
+                  <td>{index + 1}</td>
+                  <td>
+                    <div className='input-group mb-3'>
+                      <input className='form-control' type='text' value={url.original_url} disabled />
+                    </div>
+                  </td>
+                  <td>
+                    <div className='input-group mb-3'>
+                      <input className='form-control' type='text' value={`${window.location.origin}/${url.short_code}`} disabled />
+                    </div>
+                  </td>
+                  <td className='d-flex justify-content-center gap-1 flex-wrap'>
+                    <Button
+                      size='sm'
+                      variant='outline-secondary'
+                      onClick={() => {
+                        setSelectedUrl(url);
+                        setShowQR(true);
+                      }}>
+                      QR Code
+                    </Button>
+                    <Button size='sm' variant='outline-dark' onClick={e => salinOriginalUrl(e, url.original_url)}>
+                      Salin Original URL
+                    </Button>
+                    <Button size='sm' variant='outline-dark' onClick={e => lihatOriginalUrl(e, url.original_url)}>
+                      Lihat Original URL
+                    </Button>
+                    <Button size='sm' variant='outline-dark' onClick={e => salinCustomUrl(e, `${window.location.origin}/${url.short_code}`)}>
+                      Salin Custom URL
+                    </Button>
+                    <Button size='sm' variant='outline-dark' onClick={e => lihatCustomUrl(e, `${window.location.origin}/${url.short_code}`)}>
+                      Lihat Custome URL
+                    </Button>
 
-        {/* Modal QR */}
-        <Modal show={showQR} onHide={() => setShowQR(false)} centered>
-          <Modal.Header closeButton>
-            <Modal.Title>QR Code</Modal.Title>
-          </Modal.Header>
-          <Modal.Body className='text-center'>
-            {selectedUrl && (
-              <>
-                <QRCodeSVG
-                  id='qr-code-svg'
-                  value={`${window.location.origin}/${selectedUrl.short_code}`}
-                  size={256}
-                  level='H' // High error correction
-                  includeMargin={true}
-                />
-                <p className='mt-3'>{`${window.location.origin}/${selectedUrl.short_code}`}</p>
-                <Button variant='primary' onClick={handleDownload} className='mt-2'>
-                  Download QR Code (.svg)
-                </Button>
-              </>
-            )}
-          </Modal.Body>
-        </Modal>
+                    <Button
+                      size='sm'
+                      variant='outline-primary'
+                      onClick={() => {
+                        setSelectedUrl(url);
+                        setNewUrl(url.original_url);
+                        setShowEdit(true);
+                      }}>
+                      Edit
+                    </Button>
 
-        {/* Modal Edit */}
-        <Modal show={showEdit} onHide={() => setShowEdit(false)} centered>
-          <Modal.Header closeButton>
-            <Modal.Title>Edit URL</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form.Control type='text' value={newUrl} onChange={e => setNewUrl(e.target.value)} />
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant='secondary' onClick={() => setShowEdit(false)}>
-              Batal
-            </Button>
-            <Button variant='primary' onClick={handleUpdate}>
-              Simpan
-            </Button>
-          </Modal.Footer>
-        </Modal>
+                    <Button
+                      size='sm'
+                      variant='outline-danger'
+                      onClick={() => {
+                        setSelectedUrl(url);
+                        setShowDelete(true);
+                      }}>
+                      Delete
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
 
-        {/* Modal Delete */}
-        <Modal show={showDelete} onHide={() => setShowDelete(false)} centered>
-          <Modal.Header closeButton>
-            <Modal.Title>Konfirmasi Hapus</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <div className='mb-3'>Yakin ingin menghapus link ini?</div>
-            <Form.Group className='mb-3'>
-              <div>Original URL:</div>
-              <Form.Control id='originalUrl' type='text' value={selectedUrl?.original_url} disabled />
-            </Form.Group>
-            <Form.Group className='mb-3'>
-              <div>Custom URL:</div>
-              <Form.Control id='customUrl' type='text' value={`${window.location.origin}/${selectedUrl?.short_code}`} disabled />
-            </Form.Group>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant='secondary' onClick={() => setShowDelete(false)}>
-              Batal
-            </Button>
-            <Button variant='danger' onClick={handleDelete}>
-              Hapus
-            </Button>
-          </Modal.Footer>
-        </Modal>
+          {/* Modal QR */}
+          <Modal show={showQR} onHide={() => setShowQR(false)} centered>
+            <Modal.Header closeButton>
+              <Modal.Title>QR Code</Modal.Title>
+            </Modal.Header>
+            <Modal.Body className='text-center'>
+              {selectedUrl && (
+                <>
+                  <QRCodeSVG
+                    id='qr-code-svg'
+                    value={`${window.location.origin}/${selectedUrl.short_code}`}
+                    size={256}
+                    level='H' // High error correction
+                    includeMargin={true}
+                  />
+                  <p className='mt-3'>{`${window.location.origin}/${selectedUrl.short_code}`}</p>
+                  <Button variant='primary' onClick={handleDownload} className='mt-2'>
+                    Download QR Code (.svg)
+                  </Button>
+                </>
+              )}
+            </Modal.Body>
+          </Modal>
+
+          {/* Modal Edit */}
+          <Modal show={showEdit} onHide={() => setShowEdit(false)} centered>
+            <Modal.Header closeButton>
+              <Modal.Title>Edit URL</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form.Control type='text' value={newUrl} onChange={e => setNewUrl(e.target.value)} />
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant='secondary' onClick={() => setShowEdit(false)}>
+                Batal
+              </Button>
+              <Button variant='primary' onClick={handleUpdate}>
+                Simpan
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
+          {/* Modal Delete */}
+          <Modal show={showDelete} onHide={() => setShowDelete(false)} centered>
+            <Modal.Header closeButton>
+              <Modal.Title>Konfirmasi Hapus</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <div className='mb-3'>Yakin ingin menghapus link ini?</div>
+              <Form.Group className='mb-3'>
+                <div>Original URL:</div>
+                <Form.Control id='originalUrl' type='text' value={selectedUrl?.original_url} disabled />
+              </Form.Group>
+              <Form.Group className='mb-3'>
+                <div>Custom URL:</div>
+                <Form.Control id='customUrl' type='text' value={`${window.location.origin}/${selectedUrl?.short_code}`} disabled />
+              </Form.Group>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant='secondary' onClick={() => setShowDelete(false)}>
+                Batal
+              </Button>
+              <Button variant='danger' onClick={handleDelete}>
+                Hapus
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
       </div>
     </div>
   );
