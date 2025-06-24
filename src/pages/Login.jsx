@@ -1,12 +1,10 @@
 import { supabase } from '@/helpers/supabaseClient';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import toast from 'react-hot-toast';
-import MyButton from '@/components/MyButton';
-import MyInput from '@/components/MyInput';
-import '@/styles/Login.css';
+import { useToast } from '@/context/ToastContext';
 
 export default function Login() {
+  const toast = useToast();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoadingEmail, setIsLoadingEmail] = useState(false);
@@ -76,95 +74,123 @@ export default function Login() {
   };
 
   return (
-    <div className='container'>
-      <div className='card px-3 py-5 mx-auto w-50'>
-        <h2 className='mb-3 text-center'> Login</h2>
-        <form onSubmit={signInWithEmail}>
-          {message && <div className='alert alert-danger my-2'>{message}</div>}
+    <div className='flex justify-center items-center min-h-screen bg-gray-100'>
+      <div className='p-8 mx-auto bg-white border border-gray-200 rounded-xl shadow-lg w-full max-w-md mt-10'>
+        <header className='text-3xl font-bold text-center mb-6 text-gray-800'>Login</header>
+        <form className='space-y-4' onSubmit={signInWithEmail}>
+          {message && (
+            <div className='p-3 text-sm text-red-700 bg-red-100 rounded-md' role='alert'>
+              {message}
+            </div>
+          )}
 
-          <label htmlFor='email' className='mb-2'>
-            Email:
-          </label>
-          <MyInput
-            className={errorEmail ? 'is-invalid form-control mb-2' : 'form-control mb-2'}
-            name='email'
-            id='email'
-            type='email'
-            placeholder='email'
-            value={email}
-            onChange={e => {
-              setEmail(e.target.value);
-              if (errorEmail) setErrorEmail('');
-            }}
-            autoComplete='email'
-          />
-          {errorEmail && <div className='alert alert-danger'>{errorEmail}</div>}
-
-          <label htmlFor='password' className='mb-2 mt-3'>
-            Password:
-          </label>
-          <MyInput
-            className={errorPassword ? 'is-invalid form-control mb-2' : 'form-control mb-2'}
-            name='password'
-            id='password'
-            type={showPassword ? 'text' : 'password'}
-            placeholder='password'
-            value={password}
-            onChange={e => {
-              setPassword(e.target.value);
-              if (errorPassword) setErrorPassword('');
-            }}
-            autoComplete='current-password'
-          />
-          {errorPassword && <div className='alert alert-danger'>{errorPassword}</div>}
-
-          <div className='form-check mt-3'>
-            <input
-              className='form-check-input'
-              type='checkbox'
-              id='showPasswordCheck'
-              checked={showPassword}
-              onChange={e => setShowPassword(e.target.checked)}
-            />
-            <label className='form-check-label' htmlFor='showPasswordCheck'>
-              Tampilkan Password
+          <div>
+            <label htmlFor='email' className='block text-sm font-medium text-gray-700 mb-1'>
+              Email:
             </label>
+            <input
+              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 ${
+                errorEmail ? 'border-red-500 focus:ring-red-300' : 'border-gray-300 focus:ring-blue-300'
+              }`}
+              name='email'
+              id='email'
+              type='email'
+              placeholder='email'
+              value={email}
+              onChange={e => {
+                setEmail(e.target.value);
+                if (errorEmail) setErrorEmail('');
+              }}
+              autoComplete='email'
+            />
+            {errorEmail && <div className='text-red-500 text-sm mt-1'>{errorEmail}</div>}
           </div>
-          <span className=''>
-            <Link className='link' to='/register'>
+
+          <div>
+            <label htmlFor='password' className='block text-sm font-medium text-gray-700 mb-1'>
+              Password:
+            </label>
+            <input
+              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 ${
+                errorPassword ? 'border-red-500 focus:ring-red-300' : 'border-gray-300 focus:ring-blue-300'
+              }`}
+              name='password'
+              id='password'
+              type={showPassword ? 'text' : 'password'}
+              placeholder='password'
+              value={password}
+              onChange={e => {
+                setPassword(e.target.value);
+                if (errorPassword) setErrorPassword('');
+              }}
+              autoComplete='current-password'
+            />
+            {errorPassword && <div className='text-red-500 text-sm mt-1'>{errorPassword}</div>}
+          </div>
+
+          <div className='flex items-center justify-between'>
+            <div className='flex items-center'>
+              <input
+                className='h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded'
+                type='checkbox'
+                id='showPasswordCheck'
+                checked={showPassword}
+                onChange={e => setShowPassword(e.target.checked)}
+              />
+              <label className='ml-2 block text-sm text-gray-900' htmlFor='showPasswordCheck'>
+                Tampilkan Password
+              </label>
+            </div>
+            <Link className='text-sm text-blue-600 hover:underline' to='/forgot-password'>
               Lupa Password?
             </Link>
-          </span>
+          </div>
 
-          <div className='d-flex flex-column gap-2 justify-content-start mt-3'>
-            <MyButton type='submit' className='btn-primary me-2' disabled={isLoadingEmail}>
+          <div className='flex flex-col gap-3 mt-4'>
+            <button
+              type='submit'
+              className='w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed'
+              disabled={isLoadingEmail}>
               {isLoadingEmail ? (
-                <>
-                  <span className='spinner-border spinner-border-sm me-2' role='status' aria-hidden='true'></span>
+                <div className='flex items-center justify-center'>
+                  <svg className='animate-spin h-5 w-5 mr-3 text-white' viewBox='0 0 24 24'>
+                    <circle className='opacity-25' cx='12' cy='12' r='10' stroke='currentColor' strokeWidth='4'></circle>
+                    <path
+                      className='opacity-75'
+                      fill='currentColor'
+                      d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'></path>
+                  </svg>
                   Login...
-                </>
+                </div>
               ) : (
                 'Login'
               )}
-            </MyButton>
+            </button>
 
-            <div>
+            <div className='text-center text-sm text-gray-600'>
               Belum punya akun?
-              <Link className='link ms-1' to='/register'>
+              <Link className='text-blue-600 hover:underline ml-1' to='/register'>
                 Register
               </Link>
             </div>
 
-            <div className='separator-or text-center my-2'>
-              <span>OR</span>
+            <div className='relative flex py-2 items-center'>
+              <div className='flex-grow border-t border-gray-300'></div>
+              <span className='flex-shrink mx-4 text-gray-500'>OR</span>
+              <div className='flex-grow border-t border-gray-300'></div>
             </div>
 
-            <MyButton type='button' className='btn-outline-info' onClick={signInWithGoogle}>
+            <button
+              type='button'
+              className='w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-black hover:text-white focus:bg-black focus:text-white focus:ring-black'
+              onClick={signInWithGoogle}>
               Login dengan Google
-            </MyButton>
-            <MyButton type='button' className='btn-outline-info' onClick={signInWithGoogle}>
-              Login dengan email tautan
-            </MyButton>
+            </button>
+            <button
+              type='button'
+              className='w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-black hover:text-white focus:bg-black focus:text-white focus:ring-black'>
+              Login dengan Email
+            </button>
           </div>
         </form>
       </div>

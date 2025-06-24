@@ -10,7 +10,6 @@ import Home from '@/pages/Home';
 import About from '@/pages/About';
 import ProtectedRoute from './ProtectedRoute';
 import { supabase } from '@/helpers/supabaseClient';
-import { Toaster } from 'react-hot-toast';
 import RedirectPage from '@/pages/RedirectPage';
 function Index() {
   const { user } = useAuth();
@@ -53,7 +52,6 @@ function Index() {
   }, [user, navigate, location.pathname]);
   return (
     <>
-      <Toaster position='top-center' reverseOrder={false} />
       <Routes>
         <Route path='/login' element={!user ? <Login /> : <Navigate to='/' />} />
 

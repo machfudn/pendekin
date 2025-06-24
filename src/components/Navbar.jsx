@@ -2,8 +2,6 @@ import { useNavigate, NavLink, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '@/helpers/supabaseClient';
 import { useState } from 'react';
-import MyButton from '@/components/MyButton';
-import '@/styles/Navbar.css';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
