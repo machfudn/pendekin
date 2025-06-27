@@ -36,7 +36,6 @@ export default function Navbar() {
               <div className='flex flex-col lg:flex-row lg:items-center lg:gap-4 w-full'>
                 {[
                   { path: '/', label: 'Home' },
-                  { path: '/create-url', label: 'Create URL' },
                   { path: '/data-url', label: 'Data URL' },
                   { path: '/about', label: 'About' },
                 ].map(({ path, label }) => (
@@ -60,7 +59,7 @@ export default function Navbar() {
                     handleLogout();
                     setIsOpen(false);
                   }}
-                  className='px-4 py-2 mt-2 lg:mt-0 rounded-md bg-red-500 text-white text-sm font-medium hover:bg-red-600 transition'>
+                  className='px-4 py-2 mt-2 lg:mt-0 rounded-md bg-red-500 text-white text-sm font-medium hover:bg-red-600 transition cursor-pointer'>
                   Logout
                 </button>
               </div>
