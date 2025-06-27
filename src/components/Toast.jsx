@@ -1,4 +1,3 @@
-// src/components/Toast.jsx
 import React, { useEffect, useState } from 'react';
 
 const Toast = ({ message, type, id, onClose }) => {

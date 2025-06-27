@@ -33,7 +33,7 @@ export const ToastProvider = ({ children }) => {
     <ToastContext.Provider value={value}>
       {children}
       {/* Posisi tengah atas: left-1/2 -translate-x-1/2 */}
-      <div className='fixed top-4 left-1/2 -translate-x-1/2 space-y-2 z-50'>
+      <div className='bg-white dark:bg-gray-900 text-black dark:text-white fixed top-4 left-1/2 -translate-x-1/2 space-y-2 z-50'>
         {toasts.map(toast => (
           <Toast key={toast.id} id={toast.id} message={toast.message} type={toast.type} onClose={removeToast} />
         ))}

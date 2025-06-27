@@ -37,7 +37,7 @@ function RedirectPage() {
         } catch {
           throw new Error('URL tujuan tidak valid');
         }
-      } catch (err) {
+      } catch (error) {
         setError('URL tidak ditemukan. Periksa kembali URL yang telah dimasukkan.');
       } finally {
         setLoading(false);

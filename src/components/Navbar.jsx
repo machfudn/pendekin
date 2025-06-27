@@ -15,19 +15,19 @@ export default function Navbar() {
   };
 
   return (
-    <div className='mb-3 mt-4 mx-auto max-w-7xl px-4'>
+    <div className=' mb-3 rounded-xl mx-auto px-4'>
       {user ? (
-        <nav className='bg-white border border-gray-200 shadow-md rounded-lg px-6 py-4'>
+        <nav className='bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-900 shadow-md rounded-lg px-6 py-4'>
           <div className='flex items-center justify-between flex-wrap'>
             {/* Brand */}
-            <h1 className='text-xl font-semibold text-gray-800'>Pendek.in</h1>
+            <h1 className='text-xl font-semibold text-gray-800 dark:text-white'>Pendek.in</h1>
 
             {/* Toggle Button (aktif di mobile & tablet) */}
-            <button onClick={() => setIsOpen(!isOpen)} className='lg:hidden p-2 rounded-md hover:bg-gray-100' aria-label='Toggle navigation'>
+            <button onClick={() => setIsOpen(!isOpen)} className='lg:hidden p-2 rounded-md hover:bg-blue-500/50' aria-label='Toggle navigation'>
               <div className='space-y-1'>
-                <span className='block w-6 h-0.5 bg-gray-800'></span>
-                <span className='block w-6 h-0.5 bg-gray-800'></span>
-                <span className='block w-6 h-0.5 bg-gray-800'></span>
+                <span className='block w-6 h-0.5 bg-gray-800 dark:bg-white'></span>
+                <span className='block w-6 h-0.5 bg-gray-800 dark:bg-white'></span>
+                <span className='block w-6 h-0.5 bg-gray-800 dark:bg-white'></span>
               </div>
             </button>
 
@@ -44,8 +44,8 @@ export default function Navbar() {
                     key={path}
                     to={path}
                     className={({ isActive }) =>
-                      `px-4 py-2 rounded-md text-sm font-medium text-center mb-1 ${
-                        isActive ? 'bg-blue-500 text-white' : 'text-gray-800 hover:bg-blue-500 hover:text-white'
+                      `px-4 py-2 rounded-md text-sm text-gray-800 dark:text-white font-medium text-center mb-1 ${
+                        isActive ? 'bg-blue-500 text-white' : 'text-gray-800 hover:bg-blue-500/50 hover:text-white'
                       }`
                     }
                     onClick={() => setIsOpen(false)}>

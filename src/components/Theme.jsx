@@ -24,7 +24,7 @@ export default function Theme() {
   return (
     <button
       onClick={toggleTheme}
-      className='px-4 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700'>
+      className='px-4 py-2 rounded bg-white dark:bg-gray-900 text-gray-900 dark:text-white hover:text-white hover:bg-blue-500/50'>
       {isDark ? '🌙 Dark Mode' : '☀️ Light Mode'}
     </button>
   );
