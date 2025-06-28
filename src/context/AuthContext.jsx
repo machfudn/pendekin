@@ -9,24 +9,34 @@ export function AuthProvider({ children }) {
   const [isLoading, setIsLoading] = useState(true); // Tambahkan loading state
 
   useEffect(() => {
+    let mounted = true;
+
     const getSession = async () => {
       const {
         data: { session },
       } = await supabase.auth.getSession();
-      setUser(session?.user ?? null);
-      setIsLoading(false);
+
+      if (mounted) {
+        setUser(session?.user ?? null);
+        setIsLoading(false);
+      }
     };
 
-    getSession();
+    getSession(); // Ambil session awal
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-      setIsLoading(false);
+      if (mounted) {
+        setUser(session?.user ?? null);
+        setIsLoading(false);
+      }
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   return <AuthContext.Provider value={{ user, isLoading }}>{children}</AuthContext.Provider>;

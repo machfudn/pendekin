@@ -11,7 +11,7 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    navigate('/login');
+    navigate('/signin');
   };
 
   return (
@@ -35,7 +35,7 @@ export default function Navbar() {
             <div className={`w-full lg:flex lg:items-center lg:w-auto mt-4 lg:mt-0 ${isOpen ? 'block' : 'hidden'}`}>
               <div className='flex flex-col lg:flex-row lg:items-center lg:gap-4 w-full'>
                 {[
-                  { path: '/', label: 'Home' },
+                  { path: '/home', label: 'Home' },
                   { path: '/data-url', label: 'Data URL' },
                   { path: '/about', label: 'About' },
                 ].map(({ path, label }) => (
@@ -68,7 +68,7 @@ export default function Navbar() {
         </nav>
       ) : (
         <Link
-          to='/login'
+          to='/signin'
           onClick={() => setIsOpen(false)}
           className='block w-full lg:w-auto text-center mt-3 lg:mt-0 px-4 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700'>
           Login

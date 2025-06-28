@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import { supabase } from '@/helpers/supabaseClient';
 import { useAuth } from '@/context/AuthContext';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useToast } from '@/context/ToastContext';
 
 function Home() {
-  const { user } = useAuth();
+  const { user, isLoading } = useAuth();
+  const navigate = useNavigate();
   const toast = useToast();
   const [totalUrls, setTotalUrls] = useState(0);
   useEffect(() => {
@@ -26,14 +27,17 @@ function Home() {
         toast.error('Error counting URLs:', error);
       }
     };
+    if (!isLoading && !user) {
+      navigate('/signin');
+    }
 
     countUserUrls();
-  }, [user]);
+  }, [isLoading, user]);
   return (
-    <div className='min-h-screen bg-gray-100 dark:bg-gray-900'>
+    <div className='min-h-screen bg-gray-100 dark:bg-gray-800'>
       <Navbar />
-      <div className='container mx-auto mt-10 px-4'>
-        <div className='bg-white shadow-md rounded-lg p-6 dark:bg-gray-800'>
+      <div className='mx-auto mt-10 px-4'>
+        <div className='bg-white shadow-md rounded-lg p-6 dark:bg-gray-900'>
           <h2 className='text-start text-2xl font-semibold mb-6 dark:text-white'>Home</h2>
           <div className='grid mb-3 grid-cols-1 md:grid-cols-2 gap-6'>
             {/* Card Data URL */}

@@ -2,10 +2,12 @@
 import React, { useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Routes, Route, useNavigate, Navigate, useLocation } from 'react-router-dom';
-import Login from '@/pages/Login';
-import Register from '@/pages/Register';
+import SignIn from '@/pages/SignIn';
+import SignInWithEmail from '@/pages/SignInWithEmail';
+import LupaPassword from '@/pages/LupaPassword';
+import ResetPassword from '@/pages/ResetPassword';
+import SignUp from '@/pages/SignUp';
 import DataUrl from '@/pages/DataUrl';
-import CreateUrl from '@/pages/CreateUrl';
 import Home from '@/pages/Home';
 import About from '@/pages/About';
 import ProtectedRoute from './ProtectedRoute';
@@ -42,33 +44,28 @@ function Index() {
       if (userData?.role === 'admin') {
         navigate('/admin');
       } else {
-        navigate('/');
+        navigate('/home');
       }
     };
 
-    const isFromLogin = location.pathname === '/login';
+    const isFromLogin = location.pathname === '/signin';
 
     if (user && isFromLogin) checkAndInsertUser();
   }, [user, navigate, location.pathname]);
   return (
     <>
       <Routes>
-        <Route path='/login' element={!user ? <Login /> : <Navigate to='/' />} />
+        <Route path='/signin' element={!user ? <SignIn /> : <Navigate to='/home' />} />
 
-        <Route path='/register' element={<Register />} />
+        <Route path='/signup' element={<SignUp />} />
+        <Route path='/signin-email' element={<SignInWithEmail />} />
+        <Route path='/lupa-password' element={<LupaPassword />} />
+        <Route path='/reset-password' element={<ResetPassword />} />
         <Route
-          path='/'
+          path='/home'
           element={
             <ProtectedRoute>
               <Home />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path='/create-url'
-          element={
-            <ProtectedRoute>
-              <CreateUrl />
             </ProtectedRoute>
           }
         />

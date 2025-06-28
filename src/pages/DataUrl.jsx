@@ -4,7 +4,7 @@ import { useAuth } from '@/context/AuthContext';
 import Navbar from '@/components/Navbar.jsx';
 import { QRCodeSVG } from 'qrcode.react';
 import { useToast } from '@/context/ToastContext';
-import { IconCopy, IconLink, IconClose, IconDownload, IconEdit, IconDelete, IconQR } from '@/components/Icons';
+import { IconCopy, IconLink, IconClose, IconDownload, IconEdit, IconDelete, IconQR, IconPlus } from '@/components/Icons';
 import QrCode from '@/components/QrCode';
 
 export default function ShortData() {
@@ -298,9 +298,9 @@ export default function ShortData() {
     setErrorShortCode('');
   };
   return (
-    <div className='min-h-screen bg-gray-100 dark:bg-gray-900'>
+    <div className='min-h-screen bg-gray-100 dark:bg-gray-800'>
       <Navbar />
-      <div className=' mx-auto px-4 py-6'>
+      <div className='mx-auto px-4 py-6'>
         <div className='bg-white dark:bg-gray-900 text-black dark:text-white shadow-md rounded-lg p-6'>
           <h2 className='text-2xl font-semibold text-start mb-4'>Data URL</h2>
 
@@ -320,7 +320,7 @@ export default function ShortData() {
                 className='w-full md:max-w-sm px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm bg-white dark:bg-gray-900 text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400  focus:outline focus:outline-black dark:focus:outline-white focus:border-black dark:focus:border-white'
               />
 
-              {/* Tombol Tambah */}
+              {/* Tombol Tambah Desktop */}
               <button
                 onClick={() => {
                   setNewOriginalUrl('');
@@ -329,7 +329,20 @@ export default function ShortData() {
                   setErrorShortCode('');
                   setShowCreate(true);
                 }}
-                className='px-4 py-2 border rounded-md text-black dark:text-white hover:bg-blue-500 hover:border-blue-500 hover:text-white cursor-pointer'>
+                className='hidden md:inline px-4 py-2 mr-2 rounded-md bg-green-500 text-white hover:bg-green-700 cursor-pointer'>
+                <IconPlus />
+              </button>
+              {/* Tombol Tambah Mobile */}
+              <button
+                onClick={() => {
+                  setNewOriginalUrl('');
+                  setNewShortCode('');
+                  setErrorOriginalUrl('');
+                  setErrorShortCode('');
+                  setShowCreate(true);
+                }}
+                className='md:hidden flex gap-2 items-center justify-center px-4 py-2 rounded-md w-full bg-green-500 text-white hover:bg-green-700 cursor-pointer'>
+                <IconPlus />
                 Tambah
               </button>
             </div>
@@ -429,9 +442,8 @@ export default function ShortData() {
                               setSelectedUrl(url);
                               setShowQR(true);
                             }}
-                            className='flex gap-2 text-sm px-3 py-1 border rounded hover:bg-gray-100 hover:text-black dark:hover:bg-black dark:hover:border-black dark:hover:text-white'>
+                            className='flex gap-2 text-sm px-3 py-1 border rounded hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black cursor-pointer'>
                             <IconQR />
-                            <span>Show QR Code</span>
                           </button>
                           <button
                             onClick={() => {
@@ -442,18 +454,16 @@ export default function ShortData() {
                               setNewShortCode(url.short_code);
                               setShowEdit(true);
                             }}
-                            className='flex gap-2 text-sm px-3 py-1 border border-blue-500 text-blue-600 rounded hover:bg-blue-500 hover:text-white'>
+                            className='flex gap-2 text-sm px-3 py-1 border border-yellow-500 text-yellow-600 rounded hover:bg-yellow-500 hover:text-white cursor-pointer'>
                             <IconEdit />
-                            <span>Edit</span>
                           </button>
                           <button
                             onClick={() => {
                               setSelectedUrl(url);
                               setShowDelete(true);
                             }}
-                            className='flex gap-2 text-sm px-3 py-1 border border-red-500 text-red-600 rounded hover:bg-red-500 hover:text-white'>
+                            className='flex gap-2 text-sm px-3 py-1 border border-red-500 text-red-600 rounded hover:bg-red-500 hover:text-white cursor-pointer'>
                             <IconDelete />
-                            <span>Delete</span>
                           </button>
                         </div>
                       </td>
@@ -529,7 +539,7 @@ export default function ShortData() {
                           setSelectedUrl(url);
                           setShowQR(true);
                         }}
-                        className='flex gap-2 text-sm px-3 py-1 border rounded hover:bg-gray-100 hover:text-black dark:hover:bg-black dark:hover:text-white'>
+                        className='flex gap-2 text-sm px-3 py-1 border rounded hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black cursor-pointer'>
                         <IconQR />
                         <span>QR Code</span>
                       </button>
@@ -542,7 +552,7 @@ export default function ShortData() {
                           setErrorShortCode('');
                           setShowEdit(true);
                         }}
-                        className='flex gap-2 text-sm px-3 py-1 border border-blue-500 text-blue-600 rounded hover:bg-blue-500 hover:text-white'>
+                        className='flex gap-2 text-sm px-3 py-1 border border-yellow-500 text-yellow-600 rounded hover:bg-yellow-500 hover:text-white cursor-pointer'>
                         <IconEdit />
                         <span>Edit</span>
                       </button>
@@ -551,7 +561,7 @@ export default function ShortData() {
                           setSelectedUrl(url);
                           setShowDelete(true);
                         }}
-                        className='flex gap-2 text-sm px-3 py-1 border border-red-500 text-red-600 rounded hover:bg-red-500 hover:text-white'>
+                        className='flex gap-2 text-sm px-3 py-1 border border-red-500 text-red-600 rounded hover:bg-red-500 hover:text-white cursor-pointer'>
                         <IconDelete />
                         <span>Hapus</span>
                       </button>
@@ -566,7 +576,7 @@ export default function ShortData() {
               <button
                 onClick={() => setPage(prev => Math.max(1, prev - 1))}
                 disabled={page === 1}
-                className='px-3 py-1 bg-gray-200 dark:bg-gray-700 text-sm rounded disabled:opacity-50 hover:bg-gray-300 dark:hover:bg-gray-600'>
+                className='px-3 py-1 bg-gray-200 dark:bg-gray-700 text-sm rounded disabled:opacity-50 hover:bg-gray-300 dark:hover:bg-gray-600 cursor-pointer'>
                 Prev
               </button>
               <span className='text-sm text-gray-700 dark:text-gray-300'>
@@ -575,7 +585,7 @@ export default function ShortData() {
               <button
                 onClick={() => setPage(prev => prev + 1)}
                 disabled={page >= totalPages}
-                className='px-3 py-1 bg-gray-200 dark:bg-gray-700 text-sm rounded hover:bg-gray-300 dark:hover:bg-gray-600 disabled:opacity-50'>
+                className='px-3 py-1 bg-gray-200 dark:bg-gray-700 text-sm rounded hover:bg-gray-300 dark:hover:bg-gray-600 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed'>
                 Next
               </button>
             </div>
