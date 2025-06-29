@@ -13,7 +13,10 @@ import About from '@/pages/About';
 import ProtectedRoute from './ProtectedRoute';
 import { supabase } from '@/helpers/supabaseClient';
 import RedirectPage from '@/pages/RedirectPage';
+import { useToast } from '@/context/ToastContext';
+
 function Index() {
+  const toast = useToast();
   const { user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -35,7 +38,7 @@ function Index() {
         ]);
 
         if (insertError) {
-          console.error('Gagal insert user:', insertError.message);
+          toast.error('Gagal insert user:', insertError.message);
         }
       }
 
