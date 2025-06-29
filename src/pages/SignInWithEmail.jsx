@@ -22,7 +22,7 @@ function SignInWithEmail() {
       const { error } = await supabase.auth.signInWithOtp({
         email,
         options: {
-          emailRedirectTo: window.location.origin + '/home', // redirect setelah klik link
+          emailRedirectTo: window.location.origin + '/home',
         },
       });
 
