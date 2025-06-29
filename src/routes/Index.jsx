@@ -55,6 +55,7 @@ function Index() {
   return (
     <>
       <Routes>
+        <Route path='/' element={<Navigate to='/home' replace />} />
         <Route path='/signin' element={!user ? <SignIn /> : <Navigate to='/home' />} />
 
         <Route path='/signup' element={<SignUp />} />
