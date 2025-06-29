@@ -22,39 +22,30 @@ function Index() {
   const location = useLocation();
 
   useEffect(() => {
-    const checkAndInsertUser = async () => {
-      if (!user) return;
+    const checkAuthUser = async () => {
+      try {
+        const { data: sessionData, error } = await supabase.auth.getSession();
+        const authUser = sessionData?.session?.user;
 
-      const { data: existingUser, error: fetchError } = await supabase.from('users').select('role').eq('id', user.id).single();
-
-      // Perbaikan: insert jika tidak ada user atau jika error karena tidak ditemukan
-      if (!existingUser || fetchError?.code === 'PGRST116') {
-        const { error: insertError } = await supabase.from('users').insert([
-          {
-            id: user.id,
-            email: user.email,
-            role: 'user',
-          },
-        ]);
-
-        if (insertError) {
-          toast.error('Gagal insert user:', insertError.message);
+        if (!authUser || error) {
+          toast.error('User tidak ditemukan atau tidak login.');
+          return;
         }
-      }
 
-      const { data: userData } = await supabase.from('users').select('role').eq('id', user.id).single();
-
-      if (userData?.role === 'admin') {
-        navigate('/admin');
-      } else {
+        // Jika user login, arahkan ke home
         navigate('/home');
+      } catch (err) {
+        toast.error('Error saat mengecek auth user:', err);
+        toast.error('Gagal memverifikasi user.');
       }
     };
 
     const isFromLogin = location.pathname === '/signin';
 
-    if (user && isFromLogin) checkAndInsertUser();
-  }, [user, navigate, location.pathname]);
+    if (user && isFromLogin) {
+      checkAuthUser();
+    }
+  }, [user, navigate, location.pathname, toast]);
   return (
     <>
       <Routes>
