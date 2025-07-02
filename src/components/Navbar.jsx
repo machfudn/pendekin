@@ -20,7 +20,7 @@ export default function Navbar() {
         <nav className='bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-900 shadow-md rounded-lg px-6 py-4'>
           <div className='flex items-center justify-between flex-wrap'>
             {/* Brand */}
-            <h1 className='text-xl font-semibold text-gray-800 dark:text-white'>Pendek.in</h1>
+            <h1 className='text-xl font-semibold text-gray-800 dark:text-white'>Pendekin</h1>
 
             {/* Toggle Button (aktif di mobile & tablet) */}
             <button onClick={() => setIsOpen(!isOpen)} className='lg:hidden p-2 rounded-md hover:bg-blue-500/50' aria-label='Toggle navigation'>

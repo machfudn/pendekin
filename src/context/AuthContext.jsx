@@ -22,7 +22,7 @@ export function AuthProvider({ children }) {
       }
     };
 
-    getSession(); // Ambil session awal
+    getSession();
 
     const {
       data: { subscription },
