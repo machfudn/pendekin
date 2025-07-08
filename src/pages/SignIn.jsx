@@ -1,5 +1,5 @@
 import { supabase } from '@/helpers/supabaseClient';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useToast } from '@/context/ToastContext';
 import { IconGoogle, IconEmail, IconEyeShow, IconEyeNotShow } from '@/components/Icons';
@@ -87,6 +87,18 @@ function SignIn() {
       setMessage(error.error);
     }
   };
+  useEffect(() => {
+    const checkSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (session) {
+        window.location.href = '/home';
+      }
+    };
+    checkSession();
+  }, []);
+
   return (
     <div className='flex justify-center items-center min-h-screen bg-gray-100 dark:bg-gray-800'>
       <div className='p-8 mx-auto bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl shadow-lg w-full max-w-md mt-10'>
