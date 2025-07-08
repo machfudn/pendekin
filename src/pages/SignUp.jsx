@@ -87,17 +87,7 @@ function SignUp() {
 
     setIsLoading(false);
   };
-  const signInWithGoogle = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}/home`,
-      },
-    });
-    if (error) {
-      setMessage(error.error);
-    }
-  };
+
   return (
     <div className='flex justify-center items-center min-h-screen bg-gray-100 dark:bg-gray-800'>
       <div className='p-8 mx-auto bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl shadow-lg w-full max-w-md mt-10'>
@@ -244,19 +234,6 @@ function SignUp() {
               </Link>
             </div>
           </div>
-          <div className='relative flex py-2 items-center'>
-            <div className='flex-grow border-t border-gray-300'></div>
-            <span className='flex-shrink mx-4 text-gray-500 dark:text-white'>Atau</span>
-            <div className='flex-grow border-t border-gray-300'></div>
-          </div>
-
-          <button
-            type='button'
-            className='w-full flex gap-2 items-center justify-center bg-white border border-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-black hover:text-white focus:bg-black focus:text-white focus:ring-black dark:border-black '
-            onClick={signInWithGoogle}>
-            <IconGoogle />
-            Sign Up dengan Google
-          </button>
         </form>
       </div>
     </div>
