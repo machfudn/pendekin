@@ -1,8 +1,12 @@
 <h1 align="center">Pendekin</h1>
 
 <p align="center">
+  <a href="./LICENSE">
   <img src="https://img.shields.io/badge/Lisensi-MIT-green.svg" alt="Lisensi" />
+  </a>
+  <a href="https://pendekin.pages.dev">
   <img src="https://img.shields.io/badge/Status-Aktif-brightgreen.svg" alt="Status Proyek" />
+  </a>
 </p>
 
 ---
